@@ -1,11 +1,15 @@
 <template>
   <div class="container">
     <form @submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" v-model="email" placeholder="Renseignez votre adresse mail"/>
-        <label for="password">Mot de passe</label>
-        <input type="password" class="form-control" id="password" v-model="password" placeholder="Entrez votre mot de passe"/>
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" v-model="email" placeholder="Renseignez votre adresse mail"/>
+        </div> 
+        <div class="col-md-4 mb-3">
+          <label for="password">Mot de passe</label>
+          <input type="password" class="form-control" id="password" v-model="password" placeholder="Entrez votre mot de passe"/>
+        </div>
       </div>
       <button type="submit">Connexion</button>
     </form>
@@ -28,14 +32,13 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      await axios.post('users/login', {
+      const response = await axios.post('users/login', {
         email: this.email,
         password: this.password
       })
-      .then(res => {
-          localStorage.setItem('token', res.data.token);
-      })
-      .catch(error => console.log(error))
+      localStorage.setItem('token', response.data.token);
+      this.$store.dispatch('user', response.data.user);
+      this.$router.push('/');
     }
   }
 }

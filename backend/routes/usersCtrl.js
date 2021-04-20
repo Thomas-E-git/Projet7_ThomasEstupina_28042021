@@ -24,7 +24,7 @@ module.exports = {
         }
 
         if (!EMAIL_REGEX.test(email)) {
-            return res.status(400).json({ 'error': 'Email is not valid' })
+            return res.status(400).json({ "error": "Email is not valid" })
         }
 
         if (!PASSWORD_REGEX.test(password)) {
