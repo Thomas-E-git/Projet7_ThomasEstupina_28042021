@@ -1,6 +1,7 @@
 var express = require('express');
 var usersCtrl = require('./routes/usersCtrl');
 var topicCtrl = require('./routes/TopicsCtrl');
+var likesCtrl = require('./routes/likesCtrl');
 
 
 exports.router = (function() {
@@ -13,6 +14,9 @@ exports.router = (function() {
 
     apiRouter.route('/topics/new/').post(topicCtrl.createTopic);
     apiRouter.route('/topics/').get(topicCtrl.listTopics);
+
+    apiRouter.route('/topics/:topicId/vote/like').post(likesCtrl.likePost);
+    apiRouter.route('/topics/:topicId/vote/dislike').post(likesCtrl.dislikePost);
 
     return apiRouter;
 })();

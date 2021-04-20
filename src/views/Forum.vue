@@ -1,27 +1,29 @@
 <template>
   <div class="hello">
+    <Nav />
     <h1>bonjour</h1>
     <div>
       <p :key="index" v-for="(post, index) in allPosts">{{ post }}</p>
     </div>
   </div>
-
 </template>
 
 <script>
-
+import '../axios'
+import Nav from '../components/Nav'
 import { mapState } from 'vuex'
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  components: {
+    Nav
+  },
+  name: 'Forum',
+  mounted() {
+    this.$store.dispatch('getAllPosts')
   },
   computed: {
     ...mapState(['allPosts'])
   },
-
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

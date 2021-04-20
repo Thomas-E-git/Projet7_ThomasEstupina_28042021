@@ -7,9 +7,11 @@ var server = express();
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
-server.get('/', function (req, res) {
-    res.setHeader('Content-type', 'text/html');
-    res.status(200).send('<h1>Bonjour et bienvenue !!</h1>');
+server.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    next();
 })
 
 server.use('/api/', apiRouter);
