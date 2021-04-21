@@ -20,7 +20,7 @@ module.exports = {
         }
 
         if (username.length >= 30 || username.length <= 4) {
-            return res.status(400).json({ 'error' : 'Username must have between 5 and 12 characters' });
+            return res.status(400).json({ 'error' : 'Username must have between 5 and 30 characters' });
         }
 
         if (!EMAIL_REGEX.test(email)) {
@@ -28,7 +28,7 @@ module.exports = {
         }
 
         if (!PASSWORD_REGEX.test(password)) {
-            return res.status(400).json({ 'error': 'Password is not valid, should have at least 8 caracters, containing at least one uppercase, one number and one special character' })
+            return res.status(400).json({ message: "Password is not valid, should have at least 8 caracters, containing at least one uppercase, one number and one special character" })
         }
 
         models.User.findOne({
@@ -76,7 +76,8 @@ module.exports = {
                     if(resBcrypt) {
                         return res.status(200).json({
                             'userId': userFound.id,
-                            'token': jwtUtils.generateTokenForUser(userFound)
+                            'token': jwtUtils.generateTokenForUser(userFound),
+                            'user': userFound
                         });
                     } else {
                         return res.status(403).json({ "error": "invalid password" });

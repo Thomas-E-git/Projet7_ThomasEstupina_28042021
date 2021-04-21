@@ -57,45 +57,33 @@ module.exports = {
         });
     },
     listTopics: function(req, res) {
-        
-        var headerAuth = req.headers['authorization'];
-        var userId = jwtUtils.getUserId(headerAuth);
 
         var fields = req.query.fields;
         var limit = parseInt(req.query.limit);
         var offset = parseInt(req.query.offset);
         var order = req.query.order;
 
-        models.User.findOne({
-            where: { id: userId }
-        })
-        .then(function(userFound) {
-            if(userFound) {
-                models.Topic.findAll({
-                    order: [(order != null) ? order.split(':') : ['title', 'ASC']],
-                    attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
-                    limit: (!isNaN(limit)) ? limit : null,
-                    offset: (!isNaN(offset)) ? offset : null,
-                    include: [{
-                        model: models.User,
-                        attributes: [ 'username' ]
-                    }]          
-                }).then(function(topics) {
-                    if (topics) {
-                        res.status(200).json(topics);
-                    } else {
-                        res.status(404).json({ "error": "no topis found" });
-                    }
-                }).catch(function(err) {
-                    console.log(err);
-                    res.status(500).json({ "error": "invalid fields" })
-                })
+        
+       
+            
+        models.Topic.findAll({
+            order: [(order != null) ? order.split(':') : ['title', 'ASC']],
+            attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
+            limit: (!isNaN(limit)) ? limit : null,
+            offset: (!isNaN(offset)) ? offset : null,
+            include: [{
+                model: models.User,
+                attributes: [ 'username' ]
+            }]          
+        }).then(function(topics) {
+            if (topics) {
+                res.status(200).json(topics);
             } else {
-                return res.status(500).json({ error });
+                res.status(404).json({ "error": "no topis found" });
             }
-        })     
-        .catch(function(err) {
-            return res.status(500).json({ 'error': 'unable to verify user' });
-        })           
+        }).catch(function(err) {
+            console.log(err);
+            res.status(500).json({ "error": "invalid fields" })
+        })  
     }
 }

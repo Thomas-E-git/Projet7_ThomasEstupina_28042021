@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
 import '../axios';
 
 
@@ -8,37 +7,33 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    user: null,
     allPosts : [],
-    user: null
   },
   getters: {
     user: (state) => {
       return state.user;
+    },
+    posts: (state) => {
+      return state.allPosts;
     }
   },
   mutations: {
+    user(state, user) {
+      state.user = user;
+    },
     SET_POSTS(state, posts) {
       state.allPosts = posts
     },
-    USER(state, user) {
-      state.user = user;
-    }
   },
   actions: {
-    async getAllPosts(context) {
-      await axios.get('topics')
-      .then(res => {
-        let posts = res.data;
-        context.commit('SET_POSTS', posts);
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    async user(context, user) {
+      console.log("testUser");
+      await context.commit('user', user);
     },
-    user(context, user) {
-      context.commit('USER', user);
-    }
-  },
-  modules: {
+    async getAllPosts(context, posts) {
+      console.log("testPosts");
+      await context.commit('SET_POSTS', posts);
+    },
   }
 })

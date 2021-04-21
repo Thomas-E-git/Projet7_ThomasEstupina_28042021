@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
-    <Nav />
-    <h1>bonjour</h1>
+    <h1>bonjour {{ user.username }}</h1>
     <div>
       <p :key="index" v-for="(post, index) in allPosts">{{ post }}</p>
     </div>
@@ -10,18 +9,20 @@
 
 <script>
 import '../axios'
-import Nav from '../components/Nav'
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
+import axios from 'axios'
+
 export default {
   components: {
-    Nav
   },
   name: 'Forum',
-  mounted() {
-    this.$store.dispatch('getAllPosts')
+  async mounted() {
+    const response = await axios.get('topics')
+    this.$store.dispatch('getAllPosts', response.data)
   },
   computed: {
-    ...mapState(['allPosts'])
+    ...mapState(['allPosts']),
+    ...mapGetters(['user'])
   },
 }
 </script>

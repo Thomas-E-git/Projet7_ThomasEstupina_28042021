@@ -11,7 +11,7 @@
           <input type="password" class="form-control" id="password" v-model="password" placeholder="Entrez votre mot de passe"/>
         </div>
       </div>
-      <button type="submit">Connexion</button>
+      <button class="btn btn-primary btn-block">Connexion</button>
     </form>
   </div>
 </template>
@@ -36,9 +36,9 @@ export default {
         email: this.email,
         password: this.password
       })
-      localStorage.setItem('token', response.data.token);
-      this.$store.dispatch('user', response.data.user);
-      this.$router.push('/');
+        localStorage.setItem('token', response.data.token)
+        this.$store.dispatch('user', response.data.user)
+        this.$router.push('/');
     }
   }
 }
