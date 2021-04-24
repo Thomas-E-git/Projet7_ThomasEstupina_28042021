@@ -133,9 +133,11 @@ module.exports = {
             attributes: ['id', 'username', 'department'],
             required: false
 
-        }) . then(function(user) {
+        }). then(function(user) {
             return res.status(200).json(user)
-        })
+        }).catch(function(err) {
+            res.status(500).json({ 'error': 'cannot get user profile' });
+        });
     },
 
     updateUserProfile: function(req, res) {
@@ -175,8 +177,95 @@ module.exports = {
             if(userFound) {
                 return res.status(201).json(userFound);
             } else {
-                return res.status(500).json({ 'error': 'cannot update user profile' })
+                return res.status(500).json({ 'error': 'cannot get user profile' })
             }
         });
+    },
+
+    deleteTopic : function(req, res) {
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+        var topicId = parseInt(req.params.topicId);
+    
+        if (userId < 0)
+          return res.status(400).json({ 'error': 'wrong token' });
+    
+            asyncLib.waterfall([
+              function(done) {
+                models.Topic.findOne({
+                  where: { 
+                    id: topicId,
+                    userId : userId
+                  }
+                })
+                .then(function(topicFound) {
+                  done(null, topicFound);
+                })
+                .catch(function(err) {
+                  return res.status(500).json({ 'error': 'unable to verify user topic' });
+                });           
+              },
+              function(topicFound, done) {
+                if(topicFound) {
+                  models.Topic.destroy({
+                    where: {
+                        id: topicFound.id
+                    },
+                  }).then(function(topicFound) {
+                    done(topicFound)  
+                  }).catch(function(err) {
+                    res.status(500).json({ 'error': 'unable to destroy topic' })
+                  });
+                } else {
+                  return res.status(500).json({ 'error': 'cannot find topic' });
+                }    
+              }
+            ],function() {
+              return res.status(200).json({'message': 'post has been deleted'})
+            }
+            
+          )
+      },
+    
+    deleteUser : function(req, res) {
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+    
+        if (userId < 0)
+          return res.status(400).json({ 'error': 'wrong token' });
+    
+            asyncLib.waterfall([
+              function(done) {
+                models.User.findOne({
+                  where: { 
+                    id : userId
+                  }
+                })
+                .then(function(userFound) {
+                  done(null, userFound);
+                })
+                .catch(function(err) {
+                  return res.status(500).json({ 'error': 'unable to verify user' });
+                });           
+              },
+              function(userFound, done) {
+                if(userFound) {
+                  models.User.destroy({
+                    where: {
+                        id: userFound.id
+                    },
+                  }).then(function(topicFound) {
+                    done(topicFound)  
+                  }).catch(function(err) {
+                    res.status(500).json({ 'error': 'unable to destroy user' })
+                  });
+                } else {
+                  return res.status(500).json({ 'error': 'cannot find user' });
+                }    
+              }
+            ],function() {
+              return res.status(200).json({'message': 'user has been deleted'})
+            }
+        )
     }
 }
