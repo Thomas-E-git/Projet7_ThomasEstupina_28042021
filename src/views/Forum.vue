@@ -1,8 +1,11 @@
 <template>
   <div class="hello">
     <h1>bonjour {{ user.username }}</h1>
-    <div>
-      <p :key="index" v-for="(post, index) in allPosts">{{ post }}</p>
+    <div :key="index" v-for="(post, index) in allPosts">
+      <h2> {{ post.username }} </h2>
+      <h3> {{ post.title }} </h3>
+      <p> {{ post.content }} </p>
+      <p> {{ post.likes }} </p>
     </div>
   </div>
 </template>

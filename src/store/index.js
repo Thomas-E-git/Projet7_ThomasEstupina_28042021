@@ -28,11 +28,9 @@ export default new Vuex.Store({
   },
   actions: {
     async user(context, user) {
-      console.log("testUser");
       await context.commit('user', user);
     },
     async getAllPosts(context, posts) {
-      console.log("testPosts");
       await context.commit('SET_POSTS', posts);
     },
   }

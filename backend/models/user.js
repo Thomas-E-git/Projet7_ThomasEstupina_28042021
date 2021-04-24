@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.User.hasMany(models.Topic)
     }
+    
   };
   User.init({
     email: DataTypes.STRING,
@@ -24,5 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+
   return User;
 };

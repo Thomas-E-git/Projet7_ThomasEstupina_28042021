@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
 var jwtUtils = require('../utils/jwt.utils');
 var models = require('../models');
 var asyncLib = require('async');
@@ -113,16 +113,42 @@ module.exports = {
             res.status(500).json({ error });
         });
     },
+
+    getOthersProfile: function(req, res) {
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+        var otherId = parseInt(req.params.userId)
+
+        if (userId < 0)
+            return res.status(400).json({ 'error': 'wrong token' });
+
+        models.User.findOne({
+            include: [{
+                model: models.Topic,
+                required: false,
+              }],
+            where: {
+                id: otherId
+            },
+            attributes: ['id', 'username', 'department'],
+            required: false
+
+        }) . then(function(user) {
+            return res.status(200).json(user)
+        })
+    },
+
     updateUserProfile: function(req, res) {
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
 
         var department = req.body.department;
+        var username = req.body.username;
 
         asyncLib.waterfall([
             function(done) {
                 models.User.findOne({
-                    attributes: ['id', 'department'],
+                    attributes: ['id', 'department', 'username'],
                     where: { id: userId }
                 }).then(function(userFound) {
                     done(null, userFound);
@@ -134,11 +160,12 @@ module.exports = {
             function(userFound, done) {
                 if(userFound) {
                     userFound.update({
-                        department: (department ? department : userFound.department)
+                        department: (department ? department : userFound.department),
+                        username: (username ? username : userFound.username),
                     }).then(function() {
                         done(userFound);
                     }).catch(function(err) {
-                        res.status(500).json({ 'error': 'cannot update department of user' });
+                        res.status(500).json({ 'error': 'cannot update user' });
                     });
                 } else {
                     res.status(404).json({ 'error': 'user not found for update' });
