@@ -16,15 +16,15 @@ module.exports = {
 
 
         if (email == null || username == null || password == null) {
-            return res.status(400).json({ 'error': 'Missing parameters' });
+            return res.status(400).json({ message: 'Missing parameters' });
         }
 
         if (username.length >= 30 || username.length <= 4) {
-            return res.status(400).json({ 'error' : 'Username must have between 5 and 30 characters' });
+            return res.status(400).json({ message : 'Username must have between 5 and 30 characters' });
         }
 
         if (!EMAIL_REGEX.test(email)) {
-            return res.status(400).json({ "error": "Email is not valid" })
+            return res.status(400).json({ message: "Email is not valid" })
         }
 
         if (!PASSWORD_REGEX.test(password)) {
@@ -53,7 +53,7 @@ module.exports = {
                 .catch(error => res.status(500).json({ error }));
             });
             } else {
-                return res.status(409).json({ 'error': 'User already exist' });
+                return res.status(409).json({ message: 'User already exist' });
                 }
             })
         .catch(error => res.status(500).json({ error }));
@@ -64,7 +64,7 @@ module.exports = {
         var password = req.body.password;
 
         if (email == null || password == null) {
-            return res.status(400).json({ 'error': 'Missing parameters' });
+            return res.status(400).json({ message: 'Missing parameters' });
         }
 
         models.User.findOne({
@@ -80,15 +80,15 @@ module.exports = {
                             'user': userFound
                         });
                     } else {
-                        return res.status(403).json({ "error": "invalid password" });
+                        return res.status(403).json({ message: "invalid password" });
                     }
                 });
             } else {
-                return res.status(404).json({ 'error': 'User not exist in DB'});
+                return res.status(404).json({ message: 'User not exist'});
             }
         })
         .catch(function(err) {
-            return res.status(500).json({ 'error': 'unable to verify user'});
+            return res.status(500).json({ message: 'unable to verify user'});
         });
     },
     getUserProfile: function(req, res) {
@@ -106,7 +106,7 @@ module.exports = {
             if (user) {
                 res.status(201).json(user);
             } else {
-                res.status(404).json({ 'error': 'user not found' });
+                res.status(404).json({ message: 'user not found' });
             }
         })
         .catch(function(err) {
@@ -117,15 +117,17 @@ module.exports = {
     getOthersProfile: function(req, res) {
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
-        var otherId = parseInt(req.params.userId)
+        var otherId = parseInt(req.params.userId);
 
         if (userId < 0)
             return res.status(400).json({ 'error': 'wrong token' });
 
         models.User.findOne({
+            
             include: [{
                 model: models.Topic,
                 required: false,
+                order: [['id', 'DESC']]
               }],
             where: {
                 id: otherId

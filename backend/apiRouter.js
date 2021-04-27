@@ -21,6 +21,7 @@ exports.router = (function() {
     apiRouter.route('/topics/:topicId/update/').put(topicCtrl.updateTopic);
 
     apiRouter.route('/topics/:topicId/vote/like').post(likesCtrl.likePost);
+    apiRouter.route('/likes/status').get(likesCtrl.getUserLikeStatus);
 
     return apiRouter;
 })();

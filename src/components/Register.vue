@@ -18,6 +18,7 @@
           <label for="department">Fonction</label>
           <input type="text" class="form-control" id="department" v-model="department" placeholder="Dans quel secteur de l'entreprise travaillez vous ?"/>
         </div>
+        <div id="error"></div>
       </div>
       <button type="submit">Inscription</button>
     </form>
@@ -41,17 +42,18 @@ export default {
     }
   },
   methods: {
-    async handleSubmit() {
-      await axios.post('users/signup', {
+    handleSubmit() {
+      axios.post('users/signup', {
         email: this.email,
         username: this.username,
         password: this.password,
         department: this.department,
       })
-      .then(this.$router.push('/login'))
-      .catch(err => {
-          console.error(err.message)
-      });
+      .then( 
+        (response) => { console.log(response);
+        this.$router.push('/login') },
+        (error) => { document.getElementById("error").innerHTML= error.response.data.message }
+      );
     }
   }
 }

@@ -11,6 +11,7 @@
           <input type="password" class="form-control" id="password" v-model="password" placeholder="Entrez votre mot de passe"/>
         </div>
       </div>
+      <p id="error"></p>
       <button class="btn btn-primary btn-block">Connexion</button>
     </form>
   </div>
@@ -32,13 +33,18 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const response = await axios.post('users/login', {
+      await axios.post('users/login', {
         email: this.email,
         password: this.password
       })
+      .then( 
+        (response) => { console.log(response);
         localStorage.setItem('token', response.data.token)
         this.$store.dispatch('user', response.data.user)
-        this.$router.push('/');
+        this.$router.push('/'); 
+        },
+        (error) => { document.getElementById("error").innerHTML= error.response.data.message }
+      )
     }
   }
 }

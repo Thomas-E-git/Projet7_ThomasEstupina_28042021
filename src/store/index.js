@@ -9,13 +9,25 @@ export default new Vuex.Store({
   state: {
     user: null,
     allPosts : [],
+    likes : [],
+    likeStatus : [],
+    usersPosts : [],
   },
   getters: {
     user: (state) => {
       return state.user;
     },
     posts: (state) => {
-      return state.allPosts;
+      return state.usersPosts;
+    },
+    likes: (state) => {
+      return state.likes;
+    },
+    likeStatus: (state) => {
+      return state.likeStatus
+    },
+    usersPosts: (state) => {
+      return state.usersPosts
     }
   },
   mutations: {
@@ -25,6 +37,15 @@ export default new Vuex.Store({
     SET_POSTS(state, posts) {
       state.allPosts = posts
     },
+    likes(state, likes) {
+      state.likes = likes
+    },
+    likeStatus(state, likeStatus) {
+      state.likeStatus = likeStatus
+    },
+    usersPosts(state, usersPosts) {
+      state.usersPosts = usersPosts
+    }
   },
   actions: {
     async user(context, user) {
@@ -33,5 +54,14 @@ export default new Vuex.Store({
     async getAllPosts(context, posts) {
       await context.commit('SET_POSTS', posts);
     },
+    async getLikes(context, likes) {
+      await context.commit('likes', likes);
+    },
+    async getUserLikeStatus(context, likeStatus) {
+      await context.commit('likeStatus', likeStatus)
+    },
+    async getUsersPosts(context, usersPosts) {
+      await context.commit('usersPosts', usersPosts)
+    }
   }
 })

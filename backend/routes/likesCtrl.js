@@ -126,4 +126,24 @@ module.exports = {
       }
     });
   },
+  getUserLikeStatus: function(req, res) {
+    var headerAuth  = req.headers['authorization'];
+    var userId      = jwtUtils.getUserId(headerAuth);
+
+    models.User.findOne({
+      where: { id: userId }
+    }).then(function(userFound) {
+      models.Like.findAll({
+        where: {
+          userId: userFound.id
+        }
+      }).then(function(likeStatus) {
+        res.status(200).json(likeStatus)
+      }).catch (function(err) {
+        res.status(404).json({ 'error': 'cannot find user like status' });
+      })
+    }).catch(function(err) {
+      res.status(404).json({ 'error': 'user cant be found' });
+    })
+  }
 }

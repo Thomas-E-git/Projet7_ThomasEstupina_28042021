@@ -11,12 +11,13 @@
 import Nav from './components/Nav'
 import axios from 'axios'
 
+
 export default ({
   name: 'App',
   components: {
     Nav
   },
-  async created() {
+  async beforeCreate() {
     const response = await axios.get('users/me')
     this.$store.dispatch('user', response.data)
   },

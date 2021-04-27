@@ -12,8 +12,8 @@ const sequelize = new Sequelize('database_development', 'openclassrooms', 'openc
 });
 
 // Constants
-const TITLE_LIMIT   = 2;
-const CONTENT_LIMIT = 4;
+const TITLE_LIMIT   = 1;
+const CONTENT_LIMIT = 3;
 
 // Routes
 module.exports = {
@@ -27,11 +27,11 @@ module.exports = {
     var content = req.body.content;
 
     if (title == null || content == null) {
-      return res.status(400).json({ 'error': 'missing parameters' });
+      return res.status(400).json({ message: 'missing parameters' });
     }
 
     if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
-      return res.status(400).json({ 'error': 'invalid parameters' });
+      return res.status(400).json({ message: 'invalid parameters' });
     }
 
     asyncLib.waterfall([
@@ -71,7 +71,7 @@ module.exports = {
     });
   },
   listTopics: function(req, res) {
-      sequelize.query("SELECT Topic.id, Topic.title, Topic.content, Topic.attachment, Topic.likes, Topic.createdAt, Topic.updatedAt, Topic.UserId, Creator.username FROM Topics AS Topic LEFT OUTER JOIN Users AS Creator ON Topic.UserId = Creator.id" ,{type: Sequelize.QueryTypes.SELECT} )
+      sequelize.query("SELECT Topic.id, Topic.title, Topic.content, Topic.attachment, Topic.likes, Topic.createdAt, Topic.updatedAt, Topic.UserId, Creator.username FROM Topics AS Topic LEFT OUTER JOIN Users AS Creator ON Topic.UserId = Creator.id ORDER BY Topic.updatedAt DESC" ,{type: Sequelize.QueryTypes.SELECT} )
     .then(function(topics) {
       if (topics) {
         res.status(200).json(topics);
@@ -196,6 +196,13 @@ module.exports = {
     var title = req.body.title;
     var content = req.body.content;
     var attachment = req.body.attachment;
+
+    if (title.length <= TITLE_LIMIT && title.length !== 0) {
+      return res.status(400).json({ message: 'invalid title' });
+    }
+    if (content.length <= CONTENT_LIMIT && content.length !== 0) {
+      return res.status(400).json({ message: 'invalid content' });
+    }
 
     if (userId < 0)
       return res.status(400).json({ 'error': 'wrong token' });
