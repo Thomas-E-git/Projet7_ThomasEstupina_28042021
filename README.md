@@ -10,15 +10,21 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+### Environnement files
+Ajouter le fichier .env (inclus dans le livrable de soutenance) au dossier backend
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Start server
+A partir du dossier backend: node server ou nodemon server
+```
+
+### Database
+?????
+```
+
+### Visit website
+http://localhost:3000/
+```
+
+
+
