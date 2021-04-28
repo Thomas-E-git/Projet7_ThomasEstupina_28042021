@@ -1,17 +1,17 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <form @submit.prevent="handleSubmit">
       <div class="form-row">
-        <div class="col-md-4 mb-3">
-          <label for="username">Nom d'utilisateur</label>
-          <input type="text" class="form-control" id="username" v-model="username" placeholder="Choisissez un nom d'utilisateur"/>
+        <div class="col-md-5 mb-3">
+          <label for="username" class="h5 font-weight-bold">Nom d'utilisateur</label>
+          <input type="text" class="form-control border-secondary" id="username" v-model="username" placeholder="Choisissez un nom d'utilisateur"/>
         </div>
-        <div class="col-md-4 mb-3">
-          <label for="department">Fonction</label>
-          <input type="text" class="form-control" id="department" v-model="department" placeholder="Dans quel secteur de l'entreprise travaillez vous ?"/>
+        <div class="col-md-5 mb-3">
+          <label for="department" class="h5 font-weight-bold">Fonction</label>
+          <input type="text" class="form-control border-secondary" id="department" v-model="department" placeholder="Dans quel secteur de l'entreprise travaillez vous ?"/>
         </div>
       </div>
-      <button type="submit">Enregistrer</button>
+      <button type="submit" class="btn btn-primary btn-block col-9 col-sm-4 col-lg-3 mt-3 mx-auto mx-sm-0">Enregistrer</button>
     </form>
   </div>
 </template>

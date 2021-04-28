@@ -1,18 +1,18 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <form @submit.prevent="handleSubmit">
       <div class="form-row">
-        <div class="col-md-4 mb-3">
-          <label for="email">Email</label>
-          <input type="email" class="form-control" id="email" v-model="email" placeholder="Renseignez votre adresse mail"/>
+        <div class="col-md-5 mb-3">
+          <label for="email" class="h5 font-weight-bold">Email</label>
+          <input type="email" class="form-control border-secondary" id="email" v-model="email" placeholder="Renseignez votre adresse mail"/>
         </div> 
-        <div class="col-md-4 mb-3">
-          <label for="password">Mot de passe</label>
-          <input type="password" class="form-control" id="password" v-model="password" placeholder="Entrez votre mot de passe"/>
+        <div class="col-md-5 mb-3 ml-md-5">
+          <label for="password" class="h5 font-weight-bold">Mot de passe</label>
+          <input type="password" class="form-control border-secondary" id="password" v-model="password" placeholder="Entrez votre mot de passe"/>
         </div>
       </div>
-      <p id="error"></p>
-      <button class="btn btn-primary btn-block">Connexion</button>
+      <p id="error" class="h5 text-danger"></p>
+      <button class="btn btn-primary btn-block col-9 col-sm-4 col-lg-3 mt-3 mx-auto mx-sm-0">Connexion</button>
     </form>
   </div>
 </template>

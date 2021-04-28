@@ -1,17 +1,18 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <form @submit.prevent="handleSubmit">
-      <div class="form-row">
-        <div class="col-md-4 mb-3">
-            <label for="title">Titre du post</label>
-            <input type="text" class="form-control" id="title" v-model="title" placeholder="2 caractères minimum"/>
+      <div class="form">
+        <div class="col-md-9 mb-3">
+            <label for="title" class="h5 font-weight-bold">Titre du post</label>
+            <input type="text" class="form-control border-secondary" id="title" v-model="title" placeholder="2 caractères minimum"/>
         </div>
-        <div class="col-md-4 mb-3">
-            <label for="content">Contenu du post</label>
-            <textarea class="form-control" id="content" v-model="content" placeholder="4 caractères minimum"/>
+        <div class="col-md-9 mb-3">
+            <label for="content" class="h5 font-weight-bold">Contenu du post</label>
+            <textarea class="form-control border-secondary" id="content" rows="10" v-model="content" placeholder="4 caractères minimum"/>
         </div>
       </div>
-      <button type="submit">Publier</button>
+      <p id="error" class="h5 text-danger ml-3"></p>
+      <button class="btn btn-primary btn-block col-9 col-sm-4 col-lg-3 mt-3 ml-3" type="submit">Publier</button>
     </form>
   </div>
 </template>
@@ -33,12 +34,15 @@ export default {
   },
   methods: {
    async handleSubmit() {
-        const response =  await axios.post('topics/new', {
+        await axios.post('topics/new', {
             title: this.title,
             content: this.content,
         })
-        console.log(response)
-        this.$router.push('/forum')
+        .then( 
+        (response) => { console.log(response);
+        this.$router.push('/forum')},
+        (error) => { document.getElementById("error").innerHTML= error.response.data.message }
+      );
     }
   }
 }

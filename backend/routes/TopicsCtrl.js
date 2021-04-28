@@ -27,11 +27,11 @@ module.exports = {
     var content = req.body.content;
 
     if (title == null || content == null) {
-      return res.status(400).json({ message: 'missing parameters' });
+      return res.status(400).json({ message: 'Sections cannot be empty' });
     }
 
     if (title.length <= TITLE_LIMIT || content.length <= CONTENT_LIMIT) {
-      return res.status(400).json({ message: 'invalid parameters' });
+      return res.status(400).json({ message: 'Missing characters' });
     }
 
     asyncLib.waterfall([
@@ -71,7 +71,7 @@ module.exports = {
     });
   },
   listTopics: function(req, res) {
-      sequelize.query("SELECT Topic.id, Topic.title, Topic.content, Topic.attachment, Topic.likes, Topic.createdAt, Topic.updatedAt, Topic.UserId, Creator.username FROM Topics AS Topic LEFT OUTER JOIN Users AS Creator ON Topic.UserId = Creator.id ORDER BY Topic.updatedAt DESC" ,{type: Sequelize.QueryTypes.SELECT} )
+      sequelize.query("SELECT Topic.id, Topic.title, Topic.content, Topic.attachment, Topic.likes, Topic.createdAt, Topic.updatedAt, Topic.UserId, Creator.username FROM Topics AS Topic LEFT OUTER JOIN Users AS Creator ON Topic.UserId = Creator.id ORDER BY Topic.createdAt DESC" ,{type: Sequelize.QueryTypes.SELECT} )
     .then(function(topics) {
       if (topics) {
         res.status(200).json(topics);

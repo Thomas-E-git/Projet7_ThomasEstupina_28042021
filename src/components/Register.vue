@@ -1,26 +1,26 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <form @submit.prevent="handleSubmit">
-      <div class="form-row">
-        <div class="col-md-4 mb-3">
-          <label for="email">Email</label>
+      <div class="form">
+        <div class="col-md-6 mb-3">
+          <label for="email" class="h5 font-weight-bold">Email</label>
           <input type="email" class="form-control" id="email" v-model="email" placeholder="Renseignez votre adresse mail"/>
         </div>
-        <div class="col-md-4 mb-3">
-          <label for="username">Nom d'utilisateur</label>
+        <div class="col-md-6 mb-3">
+          <label for="username" class="h5 font-weight-bold">Nom d'utilisateur</label>
           <input type="text" class="form-control" id="username" v-model="username" placeholder="Choisissez un nom d'utilisateur"/>
         </div>
-        <div class="col-md-4 mb-3">
-          <label for="password">Mot de passe</label>
+        <div class="col-md-6 mb-3">
+          <label for="password" class="h5 font-weight-bold">Mot de passe</label>
           <input type="password" class="form-control" id="password" v-model="password" placeholder="Entrez votre mot de passe"/>
         </div>
-        <div class="col-md-4 mb-3">
-          <label for="department">Fonction</label>
+        <div class="col-md-6 mb-3">
+          <label for="department" class="h5 font-weight-bold">Fonction</label>
           <input type="text" class="form-control" id="department" v-model="department" placeholder="Dans quel secteur de l'entreprise travaillez vous ?"/>
         </div>
-        <div id="error"></div>
+        <div id="error" class="h5 text-danger ml-3"></div>
       </div>
-      <button type="submit">Inscription</button>
+      <button type="submit" class="btn btn-primary mt-3 ml-3">Inscription</button>
     </form>
   </div>
 </template>

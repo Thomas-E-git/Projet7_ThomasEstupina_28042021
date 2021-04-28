@@ -3,9 +3,9 @@
         <div class="overlay" @click="toggle"></div>
         <div class="modale card">
             <div class="btn-modale btn btn-danger" @click="toggle">X</div>
-            <p class="h4">Personnes ayant aimé le post</p>
-            <div :key="index" v-for="(like, index) in likes">
-                <router-link :to="{ name: 'OthersProfil', params: { userId: like.Like.userId }}" v-if="like.Like.isLike == 1" @click="toggle" >{{ like.username }}</router-link>
+            <p class="h3 text-secondary mb-3">Membres qui aiment</p>
+            <div class="mb-1" :key="index" v-for="(like, index) in likes">
+                <router-link class="h4 text-primary" :to="{ name: 'OthersProfil', params: { userId: like.Like.userId }}" v-if="like.Like.isLike == 1" @click="toggle" >{{ like.username }}</router-link>
             </div>
                 
         </div>
@@ -53,7 +53,7 @@ export default {
     .modale {
         background: floralwhite;
         color:gold;
-        padding: 5rem;
+        padding: 4rem;
         position: fixed;
     }
 
