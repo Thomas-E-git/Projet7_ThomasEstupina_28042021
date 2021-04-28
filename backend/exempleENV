@@ -1,0 +1,4 @@
+DB_USER = 'utilisateur'
+DB_PASSWORD = 'mdp'
+DB_NAME = 'nomdatabase'
+DB_HOST = 000.0.0.0
