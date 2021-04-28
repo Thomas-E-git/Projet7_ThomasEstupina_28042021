@@ -19,7 +19,7 @@ A partir du dossier backend: node server ou nodemon server
 ```
 
 ### Database
-?????
+Fichier dump.sql à la racine du projet, à importer dans la bas de donnée database_development
 ```
 
 ### Visit website
